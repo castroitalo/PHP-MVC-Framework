@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace src\core;
 
-use Closure;
-
 /**
  * Class Router 
  * 
@@ -20,27 +18,28 @@ final class Router
      */
     protected array $routes = [];
 
-    public Request $request;
-
     /**
-     * Router constructor
+     * Add a new route for GET HTTP method
      *
-     * @param Request $request
+     * @param string $path
+     * @param array $callback
+     * @return void
      */
-    public function __construct(Request $request) {
-        $this->request = $request;
+    public function get(string $path, array $callback): void
+    {
+        $this->routes["GET"][$path] = $callback;
     }
 
     /**
-     * Add a new get Route
+     * Add a new route for POST HTTP method
      *
      * @param string $path
-     * @param string|Closure $callback
+     * @param array $callback
      * @return void
      */
-    public function get(string $path, string|Closure $callback): void
+    public function post(string $path, array $callback): void 
     {
-        $this->routes["get"][$path] = $callback;
+        $this->routes["POST"][$path] = $callback;
     }
 
     /**
@@ -48,7 +47,7 @@ final class Router
      *
      * @return string|false
      */
-    protected function layoutContent(): string|false 
+    protected function layoutContent(): string|false
     {
         ob_start();
         include_once Application::$ROOT_DIR . "/src/views/layouts/main.view.php";
@@ -61,8 +60,13 @@ final class Router
      * @param string $view
      * @return string|false
      */
-    protected function renderOnlyView(string $view): string|false 
+    protected function renderOnlyView(string $view, array $viewData): string|false
     {
+        // Evaluates $viewData keys as variables
+        foreach ($viewData as $key => $value) {
+            $$key = $value;
+        }
+
         ob_start();
         include_once Application::$ROOT_DIR . "/src/views/{$view}.view.php";
         return ob_get_clean();
@@ -74,10 +78,10 @@ final class Router
      * @param string $view
      * @return string
      */
-    public function renderView(string $view): string 
+    public function renderView(string $view, array $viewData = []): string
     {
         $layoutContent = $this->layoutContent();
-        $viewContent = $this->renderOnlyView($view);
+        $viewContent = $this->renderOnlyView($view, $viewData);
 
         return str_replace("{{content}}", $viewContent, $layoutContent);
     }
@@ -89,16 +93,22 @@ final class Router
      */
     public function resolve(): ?string
     {
-        $requestedUri = $this->request->getPath();
-        $httpMethod = $this->request->getMethod();
+        $requestedUri = Application::$app->request->getPath();
+        $httpMethod = Application::$app->request->getMethod();
         $callback = $this->routes[$httpMethod][$requestedUri] ?? false;
 
         if ($callback === false) {
-            return "Page not found";
+            Application::$app->response->setStatusCode(404);
+
+            return $this->renderView("404");
         }
 
         if (is_string($callback)) {
             return $this->renderView($callback);
+        }
+
+        if (is_array($callback)) {
+            $callback[0] = new $callback[0]();
         }
 
         return call_user_func($callback);

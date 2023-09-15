@@ -1,13 +1,24 @@
 <?php
 
+use src\controllers\AppController;
 use src\core\Application;
+use src\core\AuthController;
 
 require __DIR__ . "/../vendor/autoload.php";
 
 $app = new Application(dirname(__DIR__));
 
-$app->router->get("/", "home");
+// Home
+$app->router->get("/", [AppController::class, "homePage"]);
 
-$app->router->get("/contact", "contact");
+// Contact
+$app->router->get("/contact", [AppController::class, "contactPage"]);
+$app->router->post("/contact", [AppController::class, "handleContact"]);
+
+// Auth
+$app->router->get("/login", [AuthController::class, "login"]);
+$app->router->post("/login", [AuthController::class, "login"]);
+$app->router->get("/register", [AuthController::class, "register"]);
+$app->router->post("/register", [AuthController::class, "register"]);
 
 $app->run();

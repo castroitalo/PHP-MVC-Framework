@@ -26,11 +26,25 @@ final class Application
     public Request $request;
 
     /**
+     * HTTP response
+     *
+     * @var Response
+     */
+    public Response $response;
+
+    /**
      * App's router
      *
      * @var Router
      */
     public Router $router;
+
+    /**
+     * Global Application instance
+     *
+     * @var Application
+     */
+    public static Application $app;
 
     /**
      * Application constructor
@@ -40,9 +54,11 @@ final class Application
     public function __construct(string $rootPath)
     {
         self::$ROOT_DIR = $rootPath;
+        self::$app = $this;
 
         $this->request = new Request();
-        $this->router = new Router($this->request);
+        $this->response = new Response();
+        $this->router = new Router();
     }
 
     /**
