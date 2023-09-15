@@ -11,6 +11,8 @@ services:
       - 33061:3306
   app:
     image: phpframework/stable:1.0
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./:/var/www/html
     ports:

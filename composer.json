@@ -1,0 +1,17 @@
+{
+    "name": "phpframework/phpframework",
+    "authors": [
+        {
+            "name": "Italo Mateus de Castro",
+            "email": "dev.castro.italo@gmail.com"
+        }
+    ],
+    "description": "PHP MVC Framework",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}

@@ -11,6 +11,12 @@ RUN apt update && \
     apt install wget -y && \
     apt install unzip -y && \
     apt install vim -y
+
+COPY ./config-files/90-xdebug.ini "${PHP_INI_DIR}/conf.d"
+
+# Install PHP extensions
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
 RUN docker-php-ext-install zip pdo_mysql 
 
 # Copy script to install composer and my php.ini config file
