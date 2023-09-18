@@ -1,8 +1,8 @@
 <?php
 
 use src\controllers\AppController;
+use src\controllers\AuthController;
 use src\core\Application;
-use src\core\AuthController;
 
 require __DIR__ . "/../vendor/autoload.php";
 

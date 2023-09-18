@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace src\core;
 
 /**
- * Class Router 
+ * Class Router
  * 
  * @package src\core
  */

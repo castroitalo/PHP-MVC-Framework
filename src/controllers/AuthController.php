@@ -1,15 +1,19 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
-namespace src\core;
+namespace src\controllers;
+
+use src\core\Application;
+use src\core\BaseController;
+use src\models\RegisterModel;
 
 /**
  * Class AuthController
  * 
  * @package src\core
  */
-final class AuthController 
+final class AuthController
 {
     use BaseController;
 
@@ -19,12 +23,12 @@ final class AuthController
      *
      * @return string
      */
-    public function login(): string 
+    public function login(): string
     {
         // Login user
         if (Application::$app->request->getMethod() === "POST") {
             return "Handling submitted data";
-        } 
+        }
 
         // Renders page
         $viewData = [
@@ -40,17 +44,24 @@ final class AuthController
      *
      * @return string
      */
-    public function register(): string 
+    public function register(): string
     {
-        // Register user
-        if (Application::$app->request->getMethod() === "POST") {
-            return "Handling submitted data";
-        } 
-
-        // Render page
+        $errors = [];
+        $registerModel = new RegisterModel();
         $viewData = [
-            "title" => "Register"
+            "title" => "Register",
+            "model" => $registerModel
         ];
+
+        if (Application::$app->request->getMethod() === "POST") {
+            $registerModel->loadData(Application::$app->request->getBody());
+
+            if ($registerModel->validate() && $registerModel->register()) {
+                return "Success";
+            }
+
+            return $this->renderPage("register", $viewData);
+        }
 
         return $this->renderPage("register", $viewData);
     }
