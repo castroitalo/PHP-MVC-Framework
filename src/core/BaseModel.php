@@ -19,6 +19,14 @@ abstract class BaseModel
 
     abstract public function rules(): array;
 
+    public function labels(): array 
+    {
+        return [
+            "userEmail" => "E-mail",
+            "userPassword" => "Password"
+        ];
+    }
+
     public function loadData(array $data): void
     {
         foreach ($data as $key => $value) {
