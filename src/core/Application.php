@@ -40,6 +40,13 @@ final class Application
     public Router $router;
 
     /**
+     * App's database connection
+     *
+     * @var Database
+     */
+    public Database $database;
+
+    /**
      * Global Application instance
      *
      * @var Application
@@ -51,7 +58,7 @@ final class Application
      *
      * @param Router $router
      */
-    public function __construct(string $rootPath)
+    public function __construct(string $rootPath, array $config)
     {
         self::$ROOT_DIR = $rootPath;
         self::$app = $this;
@@ -59,6 +66,7 @@ final class Application
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router();
+        $this->database = new Database($config["db"]);
     }
 
     /**

@@ -51,7 +51,7 @@ final class Field
             "
             <div class='input'>
                 <label>%s</label>
-                <input type='%s' name='%s' value='%s' class='%s'>
+                <input type='%s' name='%s' value='%s'>
             </div> 
             ",
             $this->attribute,
