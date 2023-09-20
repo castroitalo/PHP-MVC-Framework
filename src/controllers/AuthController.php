@@ -6,7 +6,7 @@ namespace src\controllers;
 
 use src\core\Application;
 use src\core\BaseController;
-use src\models\RegisterModel;
+use src\models\UserModel;
 
 /**
  * Class AuthController
@@ -47,17 +47,18 @@ final class AuthController
     public function register(): string
     {
         $errors = [];
-        $registerModel = new RegisterModel();
+        $userModel = new UserModel();
         $viewData = [
             "title" => "Register",
-            "model" => $registerModel
+            "model" => $userModel
         ];
 
         if (Application::$app->request->getMethod() === "POST") {
-            $registerModel->loadData(Application::$app->request->getBody());
+            $userModel->loadData(Application::$app->request->getBody());
 
-            if ($registerModel->validate() && $registerModel->register()) {
-                return "Success";
+            if ($userModel->register()) {
+                Application::$app->session->setFlash("success", "Thanks for registering.");
+                Application::$app->response->redirect("/");
             }
 
             return $this->renderPage("register", $viewData);

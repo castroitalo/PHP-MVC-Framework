@@ -47,6 +47,13 @@ final class Application
     public Database $database;
 
     /**
+     * App's session
+     *
+     * @var Session
+     */
+    public Session $session;
+
+    /**
      * Global Application instance
      *
      * @var Application
@@ -67,6 +74,7 @@ final class Application
         $this->response = new Response();
         $this->router = new Router();
         $this->database = new Database($config["db"]);
+        $this->session = new Session();
     }
 
     /**

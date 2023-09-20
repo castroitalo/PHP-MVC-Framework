@@ -25,6 +25,11 @@
 
     <!-- page content -->
     <main class="main">
+
+        <?php if (src\core\Application::$app->session->getFlash("success")): ?>
+            <span><?= src\core\Application::$app->session->getFlash("success"); ?></span>
+        <?php endif; ?>
+
         {{content}}
     </main>
 </body>

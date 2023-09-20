@@ -21,4 +21,10 @@ final class Response
     {
         http_response_code($statusCode);
     }
+
+    public function redirect(string $path): void 
+    {
+        header("Location: " . $path);
+        exit();
+    }
 }

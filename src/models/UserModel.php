@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace src\models;
 
-use src\core\BaseModel;
+use src\core\DBModel;
 
 /**
- * Class RegisterModel
+ * Class UserModel
  * 
  * @package src\models
  */
-final class RegisterModel extends BaseModel
+final class UserModel extends DBModel
 {
     /**
      * Register user email
@@ -48,7 +48,22 @@ final class RegisterModel extends BaseModel
         ];
     }
 
+    public function tableName(): string
+    {
+        return $_ENV["DB_NAME"] . ".users";
+    }
+
+    public function attributes(): array
+    {
+        return ["userEmail", "userPassword"];
+    }
+
     public function register()
     {
+        $this->userPassword = password_hash(
+            $this->userPassword,
+            PASSWORD_DEFAULT
+        );
+        return parent::save();
     }
 }
