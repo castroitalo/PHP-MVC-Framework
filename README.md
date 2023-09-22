@@ -14,7 +14,7 @@
 - Docker
 
 ## Installing
-    - Build docker image:
-        - `docker build ./docker -t phpframework/stable:1.0`
-    - Run app with docker compose:
-        - `docker compose up -d`
+- Build docker image:
+    - `docker build ./docker -t phpframework/stable:1.0`
+- Run app with docker compose:
+    - `docker compose up -d`
