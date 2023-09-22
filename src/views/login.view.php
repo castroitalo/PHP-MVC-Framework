@@ -1,14 +1,8 @@
 <h1><?= $title; ?></h1>
 
-<form action="/login" method="POST">
-    <div class="input">
-        <label for="user_email">Email</label>
-        <input type="email" name="user_email" id="user_email">
-    </div>
-    <div class="input">
-        <label for="user_password">Password</label>
-        <input type="password" name="user_password" id="user_password">
-    </div>
+<?php $form = src\core\form\Form::begin("/login", "POST"); ?>
+    <?= $form->field($model, "userEmail")->emailField(); ?>
+    <?= $form->field($model, "userPassword")->passwordField(); ?>
 
     <button type="submit">Submit</button>
-</form>
+<?php src\core\form\Form::end(); ?>

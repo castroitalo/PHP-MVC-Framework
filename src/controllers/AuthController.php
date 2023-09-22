@@ -6,6 +6,7 @@ namespace src\controllers;
 
 use src\core\Application;
 use src\core\BaseController;
+use src\models\LoginFormModel;
 use src\models\UserModel;
 
 /**
@@ -25,15 +26,21 @@ final class AuthController
      */
     public function login(): string
     {
-        // Login user
-        if (Application::$app->request->getMethod() === "POST") {
-            return "Handling submitted data";
-        }
-
         // Renders page
+        $loginFormModel = new LoginFormModel();
         $viewData = [
-            "title" => "Login"
+            "title" => "Login",
+            "model" => $loginFormModel
         ];
+
+        if (Application::$app->request->getMethod() === "POST") {
+            $loginFormModel->loadData(Application::$app->request->getBody());
+
+            if ($loginFormModel->login()) {
+                Application::$app->session->setFlash("success", "Login successfully.");
+                Application::$app->response->redirect("/");
+            }
+        }
 
         return $this->renderPage("login", $viewData);
     }

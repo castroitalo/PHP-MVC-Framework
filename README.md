@@ -1,5 +1,13 @@
 # PHP MVC Framework
 
-<h1 style="color: red; text-align: center;">DO NOT USE THIS IN PRODUCTION. THIS PROJECT IS FOR EDUCATIONAL PURPOSE ONLY</h1>
+<p>This framework was not supposed to be used in production, it's just for educational purpose.</p>
+
+## Features
+- Custom routing.
+- Controllers.
+- Models.
+- Migrations
+- Sessions.
+- Middlewares.
 
 
