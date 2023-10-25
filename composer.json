@@ -1,11 +1,5 @@
 {
     "name": "phpframework/phpframework",
-    "authors": [
-        {
-            "name": "gnull",
-            "email": "dev.castro.italo@gmail.com"
-        }
-    ],
     "description": "PHP MVC Framework",
     "autoload": {
         "psr-4": {
